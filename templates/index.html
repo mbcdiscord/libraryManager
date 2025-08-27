@@ -1,19 +1,136 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 
 <head>
+    <meta charset="UTF-8">
     <title>Library Management</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #141e28;
+            margin: 0;
+            padding: 2rem;
+            color: #e0f7fa;
+        }
+
+        h1 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #a8e6cf;
+        }
+
+        form {
+            margin-bottom: 1rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            justify-content: center;
+        }
+
+        input {
+            padding: 0.6rem;
+            border: 1px solid #4e6e5d;
+            border-radius: 6px;
+            background-color: #1f2f2f;
+            color: #e0f7fa;
+            font-size: 1rem;
+        }
+
+        input::placeholder {
+            color: #90a4ae;
+        }
+
+        button {
+            padding: 0.6rem 1rem;
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 1rem;
+            cursor: pointer;
+            transition:
+                background-color 0.4s ease,
+                transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            margin-top: 1rem;
+        }
+
+        li {
+            background-color: #1c1c1c;
+            padding: 0.75rem;
+            margin-bottom: 0.5rem;
+            border-radius: 6px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+        }
+
+        li b {
+            color: #a8e6cf;
+        }
+
+        li i {
+            color: #90a4ae;
+        }
+
+        #search {
+            display: block;
+            margin: 1rem auto;
+            padding: 0.6rem;
+            width: 80%;
+            max-width: 400px;
+            border-radius: 6px;
+            border: 1px solid #4e6e5d;
+            background-color: #1f2f2f;
+            color: #e0f7fa;
+        }
+
+        @media (max-width: 600px) {
+            form {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            input,
+            button {
+                width: 100%;
+                font-size: 0.95rem;
+            }
+
+            #search {
+                width: 100%;
+            }
+        }
+    </style>
 </head>
 
 <body>
-    <h1>All Books
-    </h1>
+    <h1>All Books</h1>
+
     <form action="/add" method="post">
-        <input name="book" placeholder="book name">
-        <input name="author" placeholder="author">
+        <input name="book" placeholder="book name" required>
+        <input name="author" placeholder="author" required>
         <button type="submit">add</button>
     </form>
+
     <input type="text" id="search" placeholder="Search books...">
+
     <ul id="results">
         {% for book in books %}
         <li data-book="{{ book[1] }}">
@@ -30,7 +147,7 @@
         <button type="submit">students</button>
     </form>
     <form action="/borrowB" method="post">
-        <button type="submit">borow</button>
+        <button type="submit">borrow</button>
     </form>
     <form action="/borrowedB" method="post">
         <button type="submit">borrowed books</button>
@@ -41,8 +158,9 @@
     </form>
     <form action="/run" method="post">
         <input name="cmd" placeholder="enter command">
-        <button action='button'>run</button>
+        <button type="submit">run</button>
     </form>
+
     <script>
         document.getElementById('search').addEventListener('input', function () {
             const query = this.value;
@@ -62,16 +180,14 @@
                     data.forEach(book => {
                         const li = document.createElement('li');
                         li.innerHTML = `[<b>${book[0]}</b>] ${book[1]} by <b>${book[2]}</b> <i>${book[3]}</i>
-                <form action="/dele/${book[0]}" method="POST" style="display:inline;">
-                    <button type="submit" style="color: red; background: none; border: none; cursor: pointer;">[Delete]</button>
-                </form>`;
+                            <form action="/dele/${book[0]}" method="POST" style="display:inline;">
+                                <button type="submit" style="color: red; background: none; border: none; cursor: pointer;">[Delete]</button>
+                            </form>`;
                         results.appendChild(li);
                     });
                 });
         });
-
     </script>
-
 </body>
 
 </html>

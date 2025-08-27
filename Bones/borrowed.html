@@ -1,0 +1,13 @@
+<title>Borrowed Books</title>
+<h2>Borrowed Books</h2>
+
+<ul>
+    {% for r in res %}
+    <li>
+        <b>{{ r[0] }}</b> ({{ r[1] }}) borrowed <i>{{ r[2] }}</i>
+        <form action="/returned/{{ r[3] }}" method="post" style="display:inline;">
+            <button type="submit"><i>Return</i></button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>

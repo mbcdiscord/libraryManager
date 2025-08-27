@@ -1,13 +1,112 @@
-<title>Borrowed Books</title>
-<h2>Borrowed Books</h2>
+<!DOCTYPE html>
+<html lang="en">
 
-<ul>
-    {% for r in res %}
-    <li>
-        <b>{{ r[0] }}</b> ({{ r[1] }}) borrowed <i>{{ r[2] }}</i>
-        <form action="/returned/{{ r[3] }}" method="post" style="display:inline;">
-            <button type="submit"><i>Return</i></button>
-        </form>
-    </li>
-    {% endfor %}
-</ul>
+<head>
+    <meta charset="UTF-8">
+    <title>Borrowed Books</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Segoe UI', sans-serif;
+            background-color: #141e28;
+            margin: 0;
+            padding: 2rem;
+            color: #e0f7fa;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: #a8e6cf;
+        }
+
+        ul {
+            list-style: none;
+            padding: 0;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        li {
+            background-color: #1c1c1c;
+            padding: 1rem;
+            margin-bottom: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 6px rgba(0, 0, 0, 0.3);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        li b {
+            color: #a8e6cf;
+        }
+
+        li i {
+            color: #90a4ae;
+        }
+
+        form {
+            margin-left: auto;
+        }
+
+        button {
+            padding: 0.5rem 1rem;
+            background-color: #388e3c;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition:
+                background-color 0.4s ease,
+                transform 0.3s cubic-bezier(0.25, 1, 0.5, 1),
+                box-shadow 0.3s ease;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+        }
+
+        button:hover {
+            background-color: #2e7d32;
+            transform: translateY(-2px) scale(1.04);
+            box-shadow: 0 6px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        button:active {
+            transform: scale(0.98);
+            box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        @media (max-width: 600px) {
+            li {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+
+            form {
+                margin-top: 0.5rem;
+                margin-left: 0;
+            }
+
+            button {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <h2>Borrowed Books</h2>
+    <ul>
+        {% for r in res %}
+        <li>
+            <span><b>{{ r[0] }}</b> ({{ r[1] }}) borrowed <i>{{ r[2] }}</i></span>
+            <form action="/returned/{{ r[3] }}" method="post">
+                <button type="submit"><i>Return</i></button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+</body>
+
+</html>

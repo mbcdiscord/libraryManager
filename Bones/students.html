@@ -1,0 +1,52 @@
+<title>Student Records</title>
+<h2>Student Records</h2>
+
+<form action="/addStudent" method="POST">
+    <input name="student" placeholder="student">
+    <input name="class" placeholder="class">
+    <button type="submit">add</button>
+</form>
+
+<form action="/stuReset" method="POST">
+    <button type="submit">reset</button>
+</form>
+
+<form action="/ret" method="POST">
+    <button type="submit">return</button>
+</form>
+
+<input type="text" id="search" placeholder="Search by name or class...">
+<ul id="results">
+    {% for student in students %}
+    <li>
+        {{student[0]}} {{student[1]}} {{student[2]}}
+        <form action="/delStu/{{student[0]}}" method="post" style="display:inline;">
+            <button type="submit">delete</button>
+        </form>
+    </li>
+    {% endfor %}
+</ul>
+
+<script>
+    document.getElementById('search').addEventListener('input', function () {
+        const query = this.value;
+        fetch(`/searchStudent?q=${encodeURIComponent(query)}`)
+            .then(response => response.json())
+            .then(data => {
+                const results = document.getElementById('results');
+                results.innerHTML = '';
+                if (data.length === 0) {
+                    results.innerHTML = '<li><i>No matching students found.</i></li>';
+                    return;
+                }
+                data.forEach(student => {
+                    const li = document.createElement('li');
+                    li.innerHTML = `${student[0]} ${student[1]} ${student[2]}
+                        <form action="/delStu/${student[0]}" method="post" style="display:inline;">
+                            <button type="submit">delete</button>
+                        </form>`;
+                    results.appendChild(li);
+                });
+            });
+    });
+</script>
