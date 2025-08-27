@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <title>Library Management</title>
+</head>
+
+<body>
+    <h1>All Books
+    </h1>
+    <form action="/add" method="post">
+        <input name="book" placeholder="book name">
+        <input name="author" placeholder="author">
+        <button type="submit">add</button>
+    </form>
+    <input type="text" id="search" placeholder="Search books...">
+    <ul id="results">
+        {% for book in books %}
+        <li data-book="{{ book[1] }}">
+            [<b>{{ book[0] }}</b>] {{ book[1] }} by <b>{{ book[2] }}</b> <i>{{ book[3] }}</i>
+            <form action="/dele/{{ book[0] }}" method="POST" style="display:inline;">
+                <button type="submit"
+                    style="color: red; background: none; border: none; cursor: pointer;">[Delete]</button>
+            </form>
+        </li>
+        {% endfor %}
+    </ul>
+
+    <form action="/students" method="post">
+        <button type="submit">students</button>
+    </form>
+    <form action="/borrowB" method="post">
+        <button type="submit">borow</button>
+    </form>
+    <form action="/borrowedB" method="post">
+        <button type="submit">borrowed books</button>
+    </form>
+    <form action="/reset" method="post">
+        <i>reset after deleting all tasks</i>
+        <button type="submit">!reset!</button>
+    </form>
+    <form action="/run" method="post">
+        <input name="cmd" placeholder="enter command">
+        <button action='button'>run</button>
+    </form>
+    <script>
+        document.getElementById('search').addEventListener('input', function () {
+            const query = this.value;
+            fetch(`/search?q=${encodeURIComponent(query)}`)
+                .then(response => response.json())
+                .then(data => {
+                    const results = document.getElementById('results');
+                    results.innerHTML = '';
+
+                    if (data.length === 0) {
+                        const li = document.createElement('li');
+                        li.innerHTML = `<i>No matching books found.</i>`;
+                        results.appendChild(li);
+                        return;
+                    }
+
+                    data.forEach(book => {
+                        const li = document.createElement('li');
+                        li.innerHTML = `[<b>${book[0]}</b>] ${book[1]} by <b>${book[2]}</b> <i>${book[3]}</i>
+                <form action="/dele/${book[0]}" method="POST" style="display:inline;">
+                    <button type="submit" style="color: red; background: none; border: none; cursor: pointer;">[Delete]</button>
+                </form>`;
+                        results.appendChild(li);
+                    });
+                });
+        });
+
+    </script>
+
+</body>
+
+</html>
